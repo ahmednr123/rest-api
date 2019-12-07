@@ -3,11 +3,10 @@ package com.example.model;
 import com.example.exception.BadRequestException;
 import com.example.exception.InternalServerException;
 import com.example.exception.NotFoundException;
-import com.example.util.SQLQuery;
+import com.example.utils.SQLQuery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.management.QueryEval;
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -118,7 +117,7 @@ public class Users {
         return respObject.toString();
     }
 
-    public static String removeUser (Integer user_id) {
+    public static String deleteUser (Integer user_id) {
         JSONObject respObject = new JSONObject();
 
         SQLQuery query = null;
@@ -136,7 +135,7 @@ public class Users {
             }
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerException("Server error. User was not added.");
+            throw new InternalServerException("Server error. User was not deleted.");
         } finally {
             if (query != null)
                 query.close();

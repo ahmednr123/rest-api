@@ -1,18 +1,12 @@
-package com.example.util;
+package com.example.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import org.json.JSONObject;
 
-import javax.xml.crypto.Data;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -54,8 +48,7 @@ public class JWTAuthenticator {
         JWTVerifier verifier = JWT.require(algorithm).withIssuer(configObject.getString("username")).acceptExpiresAt(5).build();
 
         try {
-            DecodedJWT jwt = verifier.verify(token);
-            System.out.println(jwt.getPayload());
+            verifier.verify(token);
             return true;
         } catch (JWTVerificationException e) {
             return false;

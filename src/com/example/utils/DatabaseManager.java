@@ -1,8 +1,7 @@
-package com.example.util;
+package com.example.utils;
 
 import java.util.logging.Logger;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Connection;
 

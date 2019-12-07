@@ -1,4 +1,4 @@
-package com.example.util;
+package com.example.utils;
 
 import java.io.File;
 import java.io.IOException;

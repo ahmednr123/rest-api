@@ -5,7 +5,7 @@ import com.example.exception.UnAuthorizedException;
 import com.example.model.Activities;
 import com.example.model.Apps;
 import com.example.model.Users;
-import com.example.util.JWTAuthenticator;
+import com.example.utils.JWTAuthenticator;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -139,14 +139,38 @@ public class Rest {
             throw new UnAuthorizedException("Unauthorized access");
         }
 
-        return Users.removeUser(user_id);
+        return Users.deleteUser(user_id);
+    }
+
+    @DELETE
+    @Path("/{user_id}/apps/{app_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteApp(@HeaderParam("Authorization") String authToken, @PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id) {
+        boolean isTokenValid = JWTAuthenticator.validateJWT(authToken);
+        if (!isTokenValid) {
+            throw new UnAuthorizedException("Unauthorized access");
+        }
+
+        return Apps.deleteApp(user_id, app_id);
+    }
+
+    @DELETE
+    @Path("/{user_id}/apps/{app_id}/activities/{activity_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteActivity(@HeaderParam("Authorization") String authToken, @PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id, @PathParam("activity_id") Integer activity_id) {
+        boolean isTokenValid = JWTAuthenticator.validateJWT(authToken);
+        if (!isTokenValid) {
+            throw new UnAuthorizedException("Unauthorized access");
+        }
+
+        return Activities.deleteActivity(user_id, app_id, activity_id);
     }
 
     // PUT
-    // DELETE
     @PUT
     @Path("/{user_id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public String updateUser(@HeaderParam("Authorization") String authToken, @PathParam("user_id") Integer user_id, String body) {
         boolean isTokenValid = JWTAuthenticator.validateJWT(authToken);
         if (!isTokenValid) {
@@ -164,5 +188,57 @@ public class Rest {
         if (userObject.has("about")) about = userObject.getString("about");
 
         return Users.updateUser(user_id, name, age, about);
+    }
+
+    @PUT
+    @Path("/{user_id}/apps/{app_id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateApp(@HeaderParam("Authorization") String authToken, @PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id, String body) {
+        boolean isTokenValid = JWTAuthenticator.validateJWT(authToken);
+        if (!isTokenValid) {
+            throw new UnAuthorizedException("Unauthorized access");
+        }
+
+        JSONObject userObject;
+        try {
+            userObject = new JSONObject(body);
+        } catch (Exception e) {
+            throw new BadRequestException("Wrong app data schema", "{name[STRING], description[STRING]}");
+        }
+
+        String name = null;
+        String description = null;
+
+        if (userObject.has("name")) name = userObject.getString("name");
+        if (userObject.has("description")) description = userObject.getString("description");
+
+        return Apps.updateApp(user_id, app_id, name, description);
+    }
+
+    @PUT
+    @Path("/{user_id}/apps/{app_id}/activities/{activity_id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateActivity(@HeaderParam("Authorization") String authToken, @PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id, @PathParam("activity_id") Integer activity_id, String body) {
+        boolean isTokenValid = JWTAuthenticator.validateJWT(authToken);
+        if (!isTokenValid) {
+            throw new UnAuthorizedException("Unauthorized access");
+        }
+
+        JSONObject userObject;
+        try {
+            userObject = new JSONObject(body);
+        } catch (Exception e) {
+            throw new BadRequestException("Wrong activity data schema", "{name[STRING], description[STRING]}");
+        }
+
+        String name = null;
+        String description = null;
+
+        if (userObject.has("name")) name = userObject.getString("name");
+        if (userObject.has("description")) description = userObject.getString("description");
+
+        return Activities.updateActivity(user_id, app_id, activity_id, name, description);
     }
 }

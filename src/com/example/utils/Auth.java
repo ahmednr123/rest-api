@@ -1,7 +1,6 @@
-package com.example.util;
+package com.example.utils;
 
 import com.example.exception.BadRequestException;
-import com.example.exception.NotFoundException;
 import com.example.exception.UnAuthorizedException;
 import org.json.JSONObject;
 
