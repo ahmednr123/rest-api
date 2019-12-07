@@ -14,13 +14,11 @@ import javax.ws.rs.core.MediaType;
 @Path("/users")
 public class Rest {
 
+    // GET collections
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public String allUsers(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        if (offset == null) offset = 0;
-        if (limit == null) limit = 10;
-
         return Users.getAllUsers(offset, limit);
     }
 
@@ -28,9 +26,6 @@ public class Rest {
     @Path("/{user_id}/apps")
     @Produces(MediaType.APPLICATION_JSON)
     public String allApps(@PathParam("user_id") Integer user_id, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        if (offset == null) offset = 0;
-        if (limit == null) limit = 10;
-
         return Apps.getAllApps(user_id, offset, limit);
     }
 
@@ -38,14 +33,10 @@ public class Rest {
     @Path("/{user_id}/apps/{app_id}/activities")
     @Produces(MediaType.APPLICATION_JSON)
     public String allActivities(@PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        if (offset == null) offset = 0;
-        if (limit == null) limit = 10;
-
         return Activities.getAllActivities(user_id, app_id, offset, limit);
     }
 
-    // ================================================================================================ //
-
+    // GET
     @GET
     @Path("/{user_id}")
     @Produces(MediaType.APPLICATION_JSON)

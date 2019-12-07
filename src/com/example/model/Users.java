@@ -16,6 +16,8 @@ public class Users {
     private Users () { }
 
     public static String getAllUsers (Integer offset, Integer limit) {
+        if (offset == null) offset = 0;
+        if (limit == null) limit = 10;
         if (limit > 10)
             limit = 10;
 
@@ -29,8 +31,9 @@ public class Users {
             query.setInt(1, offset);
             query.setInt(2, limit);
             Integer finalLimit = limit;
+            Integer finalOffset = offset;
             query.execute((ResultSet resultSet) -> {
-                Integer count = offset;
+                Integer count = finalOffset;
                 while (resultSet.next()) {
                     count++;
                     userList.put(
@@ -43,7 +46,7 @@ public class Users {
                     );
                 }
 
-                if (count - offset == finalLimit) { respObject.put("next_offset", count); }
+                if (count - finalOffset == finalLimit) { respObject.put("next_offset", count); }
             });
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());

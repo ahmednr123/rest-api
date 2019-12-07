@@ -16,6 +16,8 @@ public class Apps {
     private Apps () { }
 
     public static String getAllApps (Integer user_id, Integer offset, Integer limit) {
+        if (offset == null) offset = 0;
+        if (limit == null) limit = 10;
         if (limit > 10)
             limit = 10;
 
@@ -31,8 +33,9 @@ public class Apps {
             query.setInt(3, limit);
 
             Integer finalLimit = limit;
+            Integer finalOffset = offset;
             query.execute((ResultSet resultSet) -> {
-                Integer count = offset;
+                Integer count = finalOffset;
                 while (resultSet.next()) {
                     count++;
                     appList.put(
@@ -44,7 +47,7 @@ public class Apps {
                     );
                 }
 
-                if (count - offset == finalLimit) {
+                if (count - finalOffset == finalLimit) {
                     respObject.put("next_offset", count);
                 }
             });
