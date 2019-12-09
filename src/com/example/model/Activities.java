@@ -28,7 +28,7 @@ public class Activities {
 
         SQLQuery query = null;
         try {
-            query = new SQLQuery("SELECT id, name, description FROM activities WHERE app_id=(SELECT id FROM apps WHERE id=? AND user_id=?) LIMIT ?,?");
+            query = new SQLQuery("SELECT * FROM activities JOIN apps ON apps.id=? WHERE apps.user_id=? LIMIT ?,?");
             query.setInt(1, app_id);
             query.setInt(2, user_id);
             query.setInt(3, offset);
@@ -55,12 +55,7 @@ public class Activities {
             });
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            // 1452 = Foreign Key failure on inserting record
-            if (e.getErrorCode() == 1452) {
-                throw new NotFoundException("User/App doesn't exist. Invalid user_id/app_id.");
-            } else {
-                throw new InternalServerException("Server error. Could not fetch activities.");
-            }
+            throw new InternalServerException("Server error. Could not fetch activities.");
         } finally {
             if (query != null)
                 query.close();
@@ -73,10 +68,10 @@ public class Activities {
         JSONObject respObject = new JSONObject();
         SQLQuery query = null;
         try {
-            query = new SQLQuery("SELECT id, name, description FROM activities WHERE id=? AND app_id=(SELECT id FROM apps WHERE id=? AND user_id=?)");
-            query.setInt(1, id);
-            query.setInt(2, app_id);
-            query.setInt(3, user_id);
+            query = new SQLQuery("SELECT * FROM activities JOIN apps ON apps.id=? WHERE apps.user_id=? AND activities.id=?");
+            query.setInt(1, app_id);
+            query.setInt(2, user_id);
+            query.setInt(3, id);
 
             query.execute((ResultSet resultSet) -> {
                 if (resultSet.next()) {
