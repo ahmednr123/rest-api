@@ -1,6 +1,6 @@
 # Rest API
 
-Rest API to store/get users, their applications and the application activities.
+Rest API to store/get meta data of users, their applications and the application activities.
 The users can have multiple applications under them and each application can have multiple activities.
 
 # Table of Contents
