@@ -15,7 +15,7 @@ public class Activities {
 
     private Activities () { }
 
-    public static String getAllActivities (Integer user_id, Integer app_id, Integer offset, Integer limit) {
+    public static JSONObject getAllActivities (Integer user_id, Integer app_id, Integer offset, Integer limit) {
         if (offset == null) offset = 0;
         if (limit == null) limit = 10;
         if (limit > 10)
@@ -61,10 +61,10 @@ public class Activities {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String getActivity (Integer user_id, Integer app_id, Integer id) {
+    public static JSONObject getActivity (Integer user_id, Integer app_id, Integer id) {
         JSONObject respObject = new JSONObject();
         SQLQuery query = null;
         try {
@@ -100,10 +100,10 @@ public class Activities {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String addActivity (Integer user_id, Integer app_id, String name, String description) {
+    public static JSONObject addActivity (Integer user_id, Integer app_id, String name, String description) {
         JSONObject respObject = new JSONObject();
         SQLQuery query = null;
         try {
@@ -132,10 +132,10 @@ public class Activities {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String deleteActivity (Integer user_id, Integer app_id, Integer activity_id) {
+    public static JSONObject deleteActivity (Integer user_id, Integer app_id, Integer activity_id) {
         JSONObject respObject = new JSONObject();
 
         SQLQuery query = null;
@@ -161,10 +161,10 @@ public class Activities {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String updateActivity (Integer user_id, Integer app_id, Integer id, String name, String description) {
+    public static JSONObject updateActivity (Integer user_id, Integer app_id, Integer id, String name, String description) {
         int least = 0;
         String queryString = "UPDATE activities SET ";
         if (name != null){ queryString += "name=?,"; least++;}
@@ -205,7 +205,7 @@ public class Activities {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
     private static JSONObject getJSON (Integer id, String name,  String description) {

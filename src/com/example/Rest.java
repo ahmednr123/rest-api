@@ -30,14 +30,14 @@ public class Rest {
     @Path("/{user_id}/apps")
     @Produces(MediaType.APPLICATION_JSON)
     public String allApps(@PathParam("user_id") Integer user_id, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return Apps.getAllApps(user_id, offset, limit);
+        return Apps.getAllApps(user_id, offset, limit).toString();
     }
 
     @GET
     @Path("/{user_id}/apps/{app_id}/activities")
     @Produces(MediaType.APPLICATION_JSON)
     public String allActivities(@PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return Activities.getAllActivities(user_id, app_id, offset, limit);
+        return Activities.getAllActivities(user_id, app_id, offset, limit).toString();
     }
 
     // GET
@@ -52,14 +52,14 @@ public class Rest {
     @Path("/{user_id}/apps/{app_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String appInfo(@PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id) {
-        return Apps.getApp(user_id, app_id);
+        return Apps.getApp(user_id, app_id).toString();
     }
 
     @GET
     @Path("/{user_id}/apps/{app_id}/activities/{activity_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String activityInfo(@PathParam("user_id") Integer user_id, @PathParam("app_id") Integer app_id, @PathParam("activity_id") Integer activity_id) {
-        return Activities.getActivity(user_id, app_id, activity_id);
+        return Activities.getActivity(user_id, app_id, activity_id).toString();
     }
 
 
@@ -101,7 +101,7 @@ public class Rest {
             throw new BadRequestException("Wrong app data schema", "{name[STRING], description[STRING]}");
         }
 
-        return Apps.addApp(user_id, appObject.getString("name"), appObject.getString("description"));
+        return Apps.addApp(user_id, appObject.getString("name"), appObject.getString("description")).toString();
     }
 
     @POST
@@ -121,7 +121,7 @@ public class Rest {
             throw new BadRequestException("Wrong activity data schema", "{name[STRING], description[STRING]}");
         }
 
-        return Activities.addActivity(user_id, app_id, activityObject.getString("name"), activityObject.getString("description"));
+        return Activities.addActivity(user_id, app_id, activityObject.getString("name"), activityObject.getString("description")).toString();
     }
 
     // DELETE
@@ -146,7 +146,7 @@ public class Rest {
             throw new UnAuthorizedException("Unauthorized access");
         }
 
-        return Apps.deleteApp(user_id, app_id);
+        return Apps.deleteApp(user_id, app_id).toString();
     }
 
     @DELETE
@@ -158,7 +158,7 @@ public class Rest {
             throw new UnAuthorizedException("Unauthorized access");
         }
 
-        return Activities.deleteActivity(user_id, app_id, activity_id);
+        return Activities.deleteActivity(user_id, app_id, activity_id).toString();
     }
 
     // PUT
@@ -208,7 +208,7 @@ public class Rest {
         if (userObject.has("name")) name = userObject.getString("name");
         if (userObject.has("description")) description = userObject.getString("description");
 
-        return Apps.updateApp(user_id, app_id, name, description);
+        return Apps.updateApp(user_id, app_id, name, description).toString();
     }
 
     @PUT
@@ -234,6 +234,6 @@ public class Rest {
         if (userObject.has("name")) name = userObject.getString("name");
         if (userObject.has("description")) description = userObject.getString("description");
 
-        return Activities.updateActivity(user_id, app_id, activity_id, name, description);
+        return Activities.updateActivity(user_id, app_id, activity_id, name, description).toString();
     }
 }

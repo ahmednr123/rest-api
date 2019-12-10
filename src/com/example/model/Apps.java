@@ -15,7 +15,7 @@ public class Apps {
 
     private Apps () { }
 
-    public static String getAllApps (Integer user_id, Integer offset, Integer limit) {
+    public static JSONObject getAllApps (Integer user_id, Integer offset, Integer limit) {
         if (offset == null) offset = 0;
         if (limit == null) limit = 10;
         if (limit > 10)
@@ -59,10 +59,10 @@ public class Apps {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String getApp (Integer user_id, Integer id) {
+    public static JSONObject getApp (Integer user_id, Integer id) {
         JSONObject respObject = new JSONObject();
         SQLQuery query = null;
         try {
@@ -92,10 +92,10 @@ public class Apps {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String addApp (Integer user_id, String name, String description) {
+    public static JSONObject addApp (Integer user_id, String name, String description) {
         JSONObject respObject = new JSONObject();
         SQLQuery query = null;
         try {
@@ -126,10 +126,10 @@ public class Apps {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String deleteApp (Integer user_id, Integer app_id) {
+    public static JSONObject deleteApp (Integer user_id, Integer app_id) {
         JSONObject respObject = new JSONObject();
 
         SQLQuery query = null;
@@ -159,10 +159,10 @@ public class Apps {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String updateApp (Integer user_id, Integer id, String name, String description) {
+    public static JSONObject updateApp (Integer user_id, Integer id, String name, String description) {
         int least = 0;
         String queryString = "UPDATE apps SET ";
         if (name != null){ queryString += "name=?,"; least++;}
@@ -202,7 +202,7 @@ public class Apps {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
     private static JSONObject getJSON (Integer id, String name,  String description) {

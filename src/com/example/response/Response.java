@@ -5,15 +5,15 @@ import org.json.JSONObject;
 import javax.validation.constraints.NotNull;
 
 public class Response {
-    public static JSONObject newResponseObject (ResponseType responseType, String message) {
+    public static JSONObject newResponseObject (@NotNull ResponseType responseType, String message) {
         return newResponseObject(responseType, message, null, null);
     }
 
-    public static JSONObject newResponseObject (ResponseType responseType, String message, Integer code) {
+    public static JSONObject newResponseObject (@NotNull ResponseType responseType, String message, Integer code) {
         return newResponseObject(responseType, message, code, null);
     }
 
-    public static JSONObject newResponseObject (ResponseType responseType, String message, JSONObject moreInfoObject) {
+    public static JSONObject newResponseObject (@NotNull ResponseType responseType, String message, JSONObject moreInfoObject) {
         return newResponseObject(responseType, message, null, moreInfoObject);
     }
 
