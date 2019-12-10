@@ -8,8 +8,12 @@ import com.example.model.Users;
 import com.example.utils.JWTAuthenticator;
 import org.json.JSONObject;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.io.*;
 
 @Path("/users")
 public class Rest {
@@ -19,7 +23,7 @@ public class Rest {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public String allUsers(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return Users.getAllUsers(offset, limit);
+        return Users.getAllUsers(offset, limit).toString();
     }
 
     @GET
@@ -41,7 +45,7 @@ public class Rest {
     @Path("/{user_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String userInfo(@PathParam("user_id") Integer user_id) {
-        return Users.getUser(user_id);
+        return Users.getUser(user_id).toString();
     }
 
     @GET
@@ -77,7 +81,7 @@ public class Rest {
             throw new BadRequestException("Wrong user data schema", "{name[STRING], age[INT], about[STRING]}");
         }
 
-        return Users.addUser(userObject.getString("name"), userObject.getInt("age"), userObject.getString("about"));
+        return Users.addUser(userObject.getString("name"), userObject.getInt("age"), userObject.getString("about")).toString();
     }
 
     @POST
@@ -130,7 +134,7 @@ public class Rest {
             throw new UnAuthorizedException("Unauthorized access");
         }
 
-        return Users.deleteUser(user_id);
+        return Users.deleteUser(user_id).toString();
     }
 
     @DELETE
@@ -178,7 +182,7 @@ public class Rest {
         if (userObject.has("age")) age = userObject.getInt("age");
         if (userObject.has("about")) about = userObject.getString("about");
 
-        return Users.updateUser(user_id, name, age, about);
+        return Users.updateUser(user_id, name, age, about).toString();
     }
 
     @PUT

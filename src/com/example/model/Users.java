@@ -15,7 +15,7 @@ public class Users {
 
     private Users () { }
 
-    public static String getAllUsers (Integer offset, Integer limit) {
+    public static JSONObject getAllUsers (Integer offset, Integer limit) {
         if (offset == null) offset = 0;
         if (limit == null) limit = 10;
         if (limit > 10)
@@ -50,16 +50,16 @@ public class Users {
             });
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerException("Server error. Could not fetch users.");
+            throw new InternalServerException("Server error.");
         } finally {
             if (query != null)
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String getUser (Integer id) {
+    public static JSONObject getUser (Integer id) {
         JSONObject respObject = new JSONObject();
 
         SQLQuery query = null;
@@ -82,16 +82,16 @@ public class Users {
             });
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerException("Server error. Could not fetch user.");
+            throw new InternalServerException("Server error.");
         } finally {
             if (query != null)
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String addUser (String name, Integer age, String about) {
+    public static JSONObject addUser (String name, Integer age, String about) {
         JSONObject respObject = new JSONObject();
 
         SQLQuery query = null;
@@ -111,16 +111,16 @@ public class Users {
             });
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerException("Server error. User was not added.");
+            throw new InternalServerException("Server error.");
         } finally {
             if (query != null)
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String deleteUser (Integer user_id) {
+    public static JSONObject deleteUser (Integer user_id) {
         JSONObject respObject = new JSONObject();
 
         SQLQuery query = null;
@@ -138,16 +138,16 @@ public class Users {
             }
         } catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerException("Server error. User was not deleted.");
+            throw new InternalServerException("Server error.");
         } finally {
             if (query != null)
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
-    public static String updateUser (Integer id, String name, Integer age, String about) {
+    public static JSONObject updateUser (Integer id, String name, Integer age, String about) {
         int least = 0;
         String queryString = "UPDATE users SET ";
         if (name != null){ queryString += "name=?,"; least++;}
@@ -188,7 +188,7 @@ public class Users {
                 query.close();
         }
 
-        return respObject.toString();
+        return respObject;
     }
 
     private static JSONObject getJSON (Integer id, String name, Integer age, String about) {
